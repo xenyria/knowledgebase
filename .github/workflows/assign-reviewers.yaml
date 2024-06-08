@@ -42,6 +42,7 @@ jobs:
         run: node load-reviewers.js
         env:
           LABELS: ${{ toJson(github.event.pull_request.labels) }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
 
       - name: Assign reviewers
         if: steps.load-reviewers.outputs.reviewers != ''
