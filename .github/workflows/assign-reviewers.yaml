@@ -18,8 +18,20 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Cache pnpm dependencies
+        id: cache-pnpm
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
       - name: Install dependencies
-        run: npm ci
+        run: pnpm i
 
       - name: Check if the PR has the language label
         id: check-label
