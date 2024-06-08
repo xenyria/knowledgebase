@@ -1,0 +1,20 @@
+"lang:en":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wiki/**/en.md
+
+"lang:de":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wiki/**/de.md
+
+"area:index":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wiki/index/**.md
+
+"meta":
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**
+          - "*"
