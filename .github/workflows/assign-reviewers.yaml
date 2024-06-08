@@ -41,12 +41,17 @@ jobs:
 
       - name: Assign reviewers
         if: steps.load-reviewers.outputs.reviewers != ''
-        run: |
-          REVIEWERS="${{ steps.load-reviewers.outputs.reviewers }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          REPO="${{ github.repository }}"
-          curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GH_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"reviewers\": [\"${REVIEWERS//,/\",\"}\"]}" \
-            "https://api.github.com/repos/${REPO}/pulls/${PR_NUMBER}/requested_reviewers"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const reviewers = '${{ steps.load-reviewers.outputs.reviewers }}'.split(',');
+            const prNumber = ${{ github.event.pull_request.number }};
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+
+            await github.pulls.requestReviewers({
+              owner: owner,
+              repo: repo,
+              pull_number: prNumber,
+              reviewers: reviewers
+            });
