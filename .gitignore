@@ -1,1 +1,4 @@
 node_modules
+# Block any lockfiles except the one from pnpm
+package-lock.json
+yarn.lock

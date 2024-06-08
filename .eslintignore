@@ -1,7 +1,3 @@
-# Block ann lockfiles except the one from npm
-pnpm-lock.yaml
-yarn.lock
-
 # Not sure why, but the ESLint VSCode extension seems to some times pick up the Markdown Files.
 wiki/**/*.md
 
