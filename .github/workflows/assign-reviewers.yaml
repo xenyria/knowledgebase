@@ -33,22 +33,11 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
-      - name: Check if the PR has the language label
-        id: check-label
-        run: |
-          LABELS=$(jq -r '.labels | .[] | select(.name | startswith("lang:")) | .name' <<< "${{ toJson(github.event.pull_request.labels) }}")
-          if [[ -z "$LABELS" ]]; then
-            echo "No language label found."
-            exit 0
-          fi
-          echo "Language labels found: $LABELS"
-          echo "::set-output name=labels::$LABELS"
-
-      - name: Load reviewers file
+      - name: Load reviewers file and assign reviewers
         id: load-reviewers
         run: node load-reviewers.js
         env:
-          LABELS: ${{ steps.check-label.outputs.labels }}
+          LABELS: ${{ toJson(github.event.pull_request.labels) }}
 
       - name: Assign reviewers
         if: steps.load-reviewers.outputs.reviewers != ''
