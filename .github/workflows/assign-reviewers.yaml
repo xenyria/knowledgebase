@@ -49,7 +49,7 @@ jobs:
             const repo = context.repo.repo;
             const owner = context.repo.owner;
 
-            await github.pulls.requestReviewers({
+            await github.rest.pulls.requestReviewers({
               owner: owner,
               repo: repo,
               pull_number: prNumber,
