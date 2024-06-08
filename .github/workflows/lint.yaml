@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "*"
-  pull_request_target:
+  pull_request:
     branches:
       - "*"
 
@@ -40,24 +40,3 @@ jobs:
         id: markdownlint
         run: pnpm lint
         continue-on-error: true
-
-      - name: Save lint output
-        if: github.event_name == 'pull_request' && failure()
-        run: echo "${{ steps.markdownlint.outputs.stdout }}" > lint-output.txt
-
-      - name: Comment on PR
-        if: github.event_name == 'pull_request' && failure()
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          token: ${{ secrets.GH_BOT_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ## Linting Issues
-
-            We utilize markdownlint to ensure that our markdown files are formatted correctly and consistently. Here are the issues that were found:
-
-            ```
-            $(cat lint-output.txt)
-            ```
-
-            Please take a look and try to resolve these. If you don't know how to fix them, feel free to ask for help!
