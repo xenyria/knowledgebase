@@ -3,7 +3,7 @@ const yaml = require("js-yaml");
 
 const labelsJson = process.env.LABELS;
 const labelsArray = JSON.parse(labelsJson).map((label) => label.name);
-const fileContents = fs.readFileSync(".github/reviewers.yml", "utf8");
+const fileContents = fs.readFileSync(".github/reviewers.yaml", "utf8");
 const reviewers = yaml.load(fileContents);
 let assignedReviewers = [];
 
